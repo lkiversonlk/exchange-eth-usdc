@@ -6,16 +6,19 @@ import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract ExchangeImpl is ExchangeStorage {
 
+    //owner can transfer usdc to exchange and call syncUSDC()
     function syncUSDC() external onlyOwner {
         //we may add a check that balanceOf must be larger than usdcCount
         usdcCount = usdc.balanceOf(address(this));
     }
 
+    //owner can approve and call depositUSDC()
     function depositUSDC(uint256 amount) external {
         usdc.transferFrom(msg.sender, address(this), amount);
         usdcCount = usdc.balanceOf(address(this));
     }
 
+    //for user to deposit eth and swap usdc
     //deposit eth, if swapAmount > 0, swap eth to usdc using real time price
     //return the amount of swapped usdc
     function depositEthAndSwapForUSDC(uint256 swapAmount) external payable returns (uint256) {
@@ -80,5 +83,11 @@ contract ExchangeImpl is ExchangeStorage {
     function getUSDC(uint amount) external {
         usdc.transfer(owner(), amount);
         usdcCount = usdc.balanceOf(address(this));
+    }
+}
+
+contract MockToken is ERC20 {
+    constructor(string memory name, string memory symbol, uint256 amount) ERC20(name, symbol) {
+        _mint(msg.sender, amount);
     }
 }
