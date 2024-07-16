@@ -8,10 +8,14 @@ a contract that allows users to deposit ETH, and switch to USDC using real-time 
 ## deployment
 
 1. deploy the implementation contract IMP
+
+        ```
+        IMP = new ExchangeImpl();
+        ```
 2. deploy the proxy contract PROXY
 
         ```
-        exchange = ExchangeProxy(%IMP%, %USDC_ADDRESS%)
+        exchange = new ExchangeProxy(%IMP%, %USDC_ADDRESS%);
         ```
 
 3. connect the proxy to price feed
@@ -48,6 +52,11 @@ a contract that allows users to deposit ETH, and switch to USDC using real-time 
 
     user will get USDC transferred to his account, and the contract will keep the ETH.
 
+1. user may check their eth balance
+
+        ```
+        exchange.ethCounts(address);
+        ```
 
 1. user may call withdrawEth(amount) to withdraw his ETH
 
@@ -61,4 +70,19 @@ a contract that allows users to deposit ETH, and switch to USDC using real-time 
         exchange.getEth();
         exchange.getUSDC(amount);
         ```
-    
+
+## Emergency & Maintenance
+
+* owner can stop the swap function
+
+        ```
+        exchange.setSwapEnabled(false);
+        ```
+
+    in this case, user can only withdraw their eth, and the contract will not swap eth to USDC
+
+
+
+## Further Improvement
+
+* user may set minimum amount of USDC in swap function, so that the swap will not be executed if the amount is too small

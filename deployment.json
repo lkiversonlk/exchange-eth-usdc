@@ -1,0 +1,8 @@
+{
+    "Sepolia": {
+        "ExchangeImpl": "0xc13aaF389944938c5d50B886f15bc0158C67d152",
+        "MockUSDC": "0x352d2c94e9F11447fd53854a74F322AeAeE3aDA8",
+        "ExchangeProxy": "0x2A087C084Ed4EA8917e6fDf7DE4050adbb02c447",
+        "MockPriceFeed": "0x868F4E8287F13b47A80248389fAE6e5fB05506F9"
+    }
+}

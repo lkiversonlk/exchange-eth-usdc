@@ -24,6 +24,10 @@ contract ExchangeImpl is ExchangeStorage {
         usdcCount = usdc.balanceOf(address(this));
     }
 
+    function setSwapEnabled(bool _new) external onlyOwner {
+        swapEnabled = _new;
+    }
+    
     //owner can approve and call depositUSDC()
     function depositUSDC(uint256 amount) external {
         usdc.transferFrom(msg.sender, address(this), amount);

@@ -116,6 +116,19 @@ const {
         expect(usdcCount).to.equal(0);
         expect(usdcBalance).to.equal(0);
         
+
+        //test if the owner call setSwapEnabled(false) to disable swap
+        await proxy.setSwapEnabled(false);
+      
+        //signer[1] depositSwap should fail
+
+        let failed = false;
+        try {
+          await proxy.connect(swapper).depositEthAndSwapForUSDC(ethers.parseEther('0.5'), {value: ethers.parseEther('1')});
+        } catch (e) {
+          failed = true;
+        }
+        expect(failed).to.equal(true);
       })
     });
   });
