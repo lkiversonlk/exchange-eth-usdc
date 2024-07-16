@@ -90,5 +90,26 @@ describe("Exchange Deposit", function () {
       console.log('signer2DepositBalance:', signer2DepositBalance.toString());
       expect(signer2DepositBalance).to.equal(ethers.parseEther('0.5'));
     });
+
+    it("try deposit with depositUSDC", async function() {
+      const signers = await ethers.getSigners();
+      const { mockTokenAddress, impAddress, proxyAddress} = await loadFixture(deployMockContracts);
+      const proxy = await ethers.getContractAt('ExchangeImpl', proxyAddress)
+
+      //approve 100 token to proxy
+      const token = await ethers.getContractAt('MockToken', mockTokenAddress);
+      await token.approve(proxyAddress, ethers.parseEther('100'));
+
+      //deposit 100 token
+      await proxy.depositUSDC(ethers.parseEther('100'));
+
+      //check balance of contract
+      const balance = await token.balanceOf(proxyAddress);
+      console.log('balance:', balance.toString());
+      expect(balance).to.equal(ethers.parseEther('100'));
+      const usdcCount = await proxy.usdcCount();
+      console.log('usdcCount:', usdcCount.toString());
+      expect(usdcCount).to.equal(ethers.parseEther('100'));
+    })
   });
 });
