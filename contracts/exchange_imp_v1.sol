@@ -3,9 +3,19 @@ pragma solidity ^0.8.15;
 
 import './exchange_storage.sol';
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 contract ExchangeImpl is ExchangeStorage {
 
+    function setPriceFeed(AggregatorV3Interface _feed) external onlyOwner {
+        (,int price,,,) = _feed.latestRoundData();
+        require(price > 0, 'price 0');   //price of USDC/ETH, 
+
+        uint8 feedDecimals = _feed.decimals();
+        require(feedDecimals > 0, 'decimals');
+        priceFeed = _feed;
+    }
+    
     //owner can transfer usdc to exchange and call syncUSDC()
     function syncUSDC() external onlyOwner {
         //we may add a check that balanceOf must be larger than usdcCount

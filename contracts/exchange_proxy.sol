@@ -12,4 +12,6 @@ contract ExchangeProxy is ExchangeStorage, TransparentUpgradeableProxy {
         usdc = _usdc;
         usdcDecimals = usdc.decimals();
     }
+
+    receive() external payable { }
 }
