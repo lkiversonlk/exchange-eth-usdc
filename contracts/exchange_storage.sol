@@ -8,8 +8,8 @@ import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract ExchangeStorage is Ownable{
 
     AggregatorV3Interface internal priceFeed;
-    ERC20 immutable public usdc;
-    uint immutable public usdcDecimals;
+    ERC20 public usdc;
+    uint public usdcDecimals;
     
     //the record usdc count that depsoit into the contract by owner
     //if some unexpected usdc received from others, the usdc.balanceOf(this) may >= usdcCount

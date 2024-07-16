@@ -19,10 +19,17 @@ async function deployMockContracts() {
     const proxyAddress = await proxy.getAddress()
     console.log('ExchangeProxy deployed to:', proxyAddress)
 
+    const mockPriceFeedFactory = await HRE.ethers.getContractFactory('MockPriceFeed')
+    const mockPriceFeed = await mockPriceFeedFactory.deploy()
+    await mockPriceFeed.waitForDeployment()
+    const mockPriceFeedAddress = await mockPriceFeed.getAddress()
+    console.log('MockPriceFeed deployed to:', mockPriceFeedAddress)
+
     return {
         mockTokenAddress,
         impAddress,
         proxyAddress,
+        mockPriceFeedAddress,
     }
 }
 

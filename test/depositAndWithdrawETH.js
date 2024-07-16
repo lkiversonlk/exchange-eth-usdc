@@ -1,12 +1,11 @@
 const {
-  time,
   loadFixture,
 } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
 const { expect } = require("chai");
 const { deployMockContracts } = require('./utils');
 const { ethers } = require("hardhat");
 
-describe("Exchange", function () {
+describe("Exchange Deposit", function () {
   describe("Deployment", function () {
     it("just de deploy", async function () {
       const { mockTokenAddress, impAddress, proxyAddress} = await loadFixture(deployMockContracts);

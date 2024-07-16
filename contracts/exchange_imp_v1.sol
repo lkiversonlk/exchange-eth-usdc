@@ -4,6 +4,7 @@ pragma solidity ^0.8.15;
 import './exchange_storage.sol';
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import "hardhat/console.sol";
 
 contract ExchangeImpl is ExchangeStorage {
 
@@ -15,10 +16,11 @@ contract ExchangeImpl is ExchangeStorage {
         require(feedDecimals > 0, 'decimals');
         priceFeed = _feed;
     }
-    
+
     //owner can transfer usdc to exchange and call syncUSDC()
     function syncUSDC() external onlyOwner {
         //we may add a check that balanceOf must be larger than usdcCount
+        console.log("%s", address(usdc));
         usdcCount = usdc.balanceOf(address(this));
     }
 
@@ -93,11 +95,5 @@ contract ExchangeImpl is ExchangeStorage {
     function getUSDC(uint amount) external {
         usdc.transfer(owner(), amount);
         usdcCount = usdc.balanceOf(address(this));
-    }
-}
-
-contract MockToken is ERC20 {
-    constructor(string memory name, string memory symbol, uint256 amount) ERC20(name, symbol) {
-        _mint(msg.sender, amount);
     }
 }
